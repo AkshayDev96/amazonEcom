@@ -17,17 +17,22 @@ const login = () => {
 
     return (
         <>
-        <div className="container">
+        <div className="container" style={{marginBottom:20}}>
             <Head>
                 <title>Login - Amazon</title>
             </Head>
             <div className="row">
                 <div className="col-md-12 text-center loginBox">
-                  <a><Link href='/'><Image
+                  <Link  href='/'>
+                     <a>
+                    <Image
                         src="/amazonlogo.png"
                         alt="Picture of the author"
-                        width={150}
-                        height={60} /></Link></a>
+                        width={130}
+                        height={50} />
+                        <span style={{position:'absolute',top:10,marginLeft:-10,color:'#000'}}>.in</span>
+                        </a>
+                        </Link>
                 </div>
             </div>
             {/* form */}
@@ -47,7 +52,8 @@ const login = () => {
                         <input type='submit' value="Login" className="btn btn-sm btn-block" style={{background:'linear-gradient(to bottom,#f7dfa5,#f0c14b)',border:'1px solid #999'}}/>
                     </div>
                 </form>
-                <span className="pt-3">By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.</span>            
+                    <br />
+                <span className="m-3">Only for members of Amazon.</span>            
                 </div>
             </div>
         </div>
