@@ -4,7 +4,7 @@ const {
   DeleteCategory,
   GetCategory,
   UpdateCategory
-} = require("../../Controllers/category/categoryController");
+} = require("../../Controller/category/categoryController");
 const router = express.Router();
 
 router.post("/user/add", AddCategory);

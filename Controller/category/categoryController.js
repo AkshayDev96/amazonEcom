@@ -1,5 +1,5 @@
 const express = require("express");
-const UserModel = require("../../Models/category/categoryModel");
+const UserModel = require("../../Model/category/categoryModel");
 const mongoose = require("mongoose");
 
 exports.AddCategory = (req, res) => {
