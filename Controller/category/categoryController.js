@@ -1,5 +1,5 @@
 const express = require("express");
-const UserModel = require("../../Models/category/categoryModel");
+const UserModel = require("../../Model/category/categoryModel");
 const mongoose = require("mongoose");
 
 exports.AddCategory = (req, res) => {
@@ -21,6 +21,7 @@ exports.AddCategory = (req, res) => {
       });
     });
 };
+
 exports.DeleteCategory = (req, res) => {
   const Userid = mongoose.Types.ObjectId(req.params.id);
   UserModel.findByIdAndDelete({ _id: Userid }).then(() => {
@@ -36,6 +37,7 @@ exports.DeleteCategory = (req, res) => {
       });
   });
 };
+
 exports.GetCategory = (req, res) => {
   UserModel.find({})
     .then(data => {
@@ -47,6 +49,7 @@ exports.GetCategory = (req, res) => {
       });
     });
 };
+
 exports.UpdateCategory = (req, res) => {
   const Userid = mongoose.Types.ObjectId(req.params.id);
   const { name, logo } = req.body;
