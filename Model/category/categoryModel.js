@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
-const Amazoncategory = new mongoose.Schema({
+
+const category = new mongoose.Schema({
   name: {
     type: String,
+    lowercase: true,
+    unique:true,
     required: true
   },
   logo: {
@@ -14,4 +17,5 @@ const Amazoncategory = new mongoose.Schema({
     required: true
   }
 });
-module.exports = mongoose.model("category", Amazoncategory);
+
+module.exports = mongoose.model("category", category);

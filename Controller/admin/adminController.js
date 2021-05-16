@@ -110,7 +110,7 @@ exports.adminLogin = (req, res) => {
           let token = jwt.sign({ _id: savedUser._id}, process.env.mytokenkey);
           return res.status(200).json({
             success: true,
-            message: "User details fetch successfully",
+            message: "User logged-in successfully",
             data: {
               token,
               user: savedUser,
