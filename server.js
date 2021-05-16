@@ -8,7 +8,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("get the request");
 });
-app.use(require("./View/AmazoneProduct_Route"));
+app.use(require("./View/category/categoryRoute"));
 mongoose.connect(process.env.mngo_conn, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

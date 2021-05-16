@@ -1,8 +1,8 @@
 const express = require("express");
-const UserModel = require("../Models/AmazonProduct");
+const UserModel = require("../../Models/category/categoryModel");
 const mongoose = require("mongoose");
 
-exports.AddProduct = (req, res) => {
+exports.AddCategory = (req, res) => {
   const { name, logo } = req.body;
   const user = new UserModel({
     name,
@@ -16,12 +16,12 @@ exports.AddProduct = (req, res) => {
       });
     })
     .catch(e => {
-      return res.status(400).json({
+      return res.status(500).json({
         error: e
       });
     });
 };
-exports.DeleteProduct = (req, res) => {
+exports.DeleteCategory = (req, res) => {
   const Userid = mongoose.Types.ObjectId(req.params.id);
   UserModel.findByIdAndDelete({ _id: Userid }).then(() => {
     return res
@@ -30,24 +30,24 @@ exports.DeleteProduct = (req, res) => {
         message: "deleted !!"
       })
       .catch(e => {
-        return res.status(400).json({
+        return res.status(500).json({
           error: e
         });
       });
   });
 };
-exports.GetProduct = (req, res) => {
+exports.GetCategory = (req, res) => {
   UserModel.find({})
     .then(data => {
       return res.status(200).json({ data });
     })
     .catch(e => {
-      return res.status(400).json({
+      return res.status(500).json({
         error: e
       });
     });
 };
-exports.UpdateProduct = (req, res) => {
+exports.UpdateCategory = (req, res) => {
   const Userid = mongoose.Types.ObjectId(req.params.id);
   const { name, logo } = req.body;
   UserModel.findByIdAndUpdate({ _id: Userid }, { name, logo }).then(() => {
