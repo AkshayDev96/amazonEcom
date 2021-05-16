@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 app.use(express.json())
 app.use('/api',require('./View/admin/adminRoute'))
 app.use('/api',require('./View/ImageKit/fileKit'))
+app.use('/api',require('./View/category/categoryRoute'))
 
 //listen post
 app.listen(process.env.PORT,()=>{
