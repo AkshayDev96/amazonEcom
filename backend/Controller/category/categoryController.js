@@ -8,9 +8,9 @@ exports.AddCategory = (req, res) => {
   //new category then add
   const user = new CategoryModel({name,logo,userid:objectId(req.user._id)});
   user.save()
-    .then(() => {
+    .then((data) => {
       return res.status(201).json({
-        message: "New category is added!",success:true
+        message: "New category is added!",success:true,data
       });
     }).catch(e => {
       if(e && e.code===11000){
@@ -46,7 +46,7 @@ exports.DeleteCategory = (req, res) => {
 
 //Get All category by userid
 exports.GetCategory = (req, res) => {
-  CategoryModel.find({userid:objectId(req.user._id)})
+  CategoryModel.find({userid:objectId(req.user._id)}).sort({createdAt:-1})
     .then(data => {
       return res.status(200).json({ data,success:true });
     })
@@ -66,7 +66,14 @@ exports.UpdateCategory =  (req, res) => {
     if(!data){
       return res.status(404).json({success:false,error:'Category not found'})
     }
-    return res.status(200).json({message: `Category - ${body.name?body.name:'category'} is updated`,success:true})
+    return CategoryModel.findById({_id}).then((c)=>{
+      return res.status(200).json({message: `Category - ${body.name?body.name:'category'} is updated`,data:c,success:true})
+    }).catch((e)=>{
+      console.log(e)
+      return res.status(500).json({
+        error: 'Error in updating category',success:false
+      })
+    })
   }).catch(e => {
     if(e && e.code===11000){
       return res.status(400).json({

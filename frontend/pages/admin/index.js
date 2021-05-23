@@ -18,9 +18,9 @@ const index = () => {
                 <div className="row">
                 {
                     menus.map((menu,i)=>(
-                        <Link href={menu.url}>
+                        <Link href={menu.url} key={i}>
                         <a>
-                        <div className="col-md-4" key={i}>
+                        <div className="col-md-4" >
                             <div className="panel panel-default">
                                 <div className="panel-body">
                                     <img style={{float:'left',height:50,width:60,paddingRight:10}} src={menu.logo} alt="" />

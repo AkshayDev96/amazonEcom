@@ -7,10 +7,11 @@ const ImageController = (props) => {
     const {image,setImage} = props
     const [processbar,setProgress] = React.useState(0)
 
-   const removeIfOldImageFound=()=>{
+   const removeIfOldImageFound=async()=>{
       if(image && image!==undefined && image.fileId){
-        Axios.delete(`${process.env.api}/imagekit?id=${image.fileId}`).then(()=>console.log('imagedeleted',image.fileId)).catch((e)=>console.log("Error removeIfOldImageFound",e))
+       return await Axios.delete(`${process.env.api}/imagekit?id=${image.fileId}`).catch((e)=>console.log("Error removeIfOldImageFound",e))
       }
+      return
     }
   
 
@@ -18,7 +19,6 @@ const ImageController = (props) => {
         if (!acceptedFile) {
             return;
         }
-        removeIfOldImageFound()
        if(acceptedFile.type.match('image/webp') || acceptedFile.type.match('image/jpeg') || acceptedFile.type.match('image/png')){
     
         if (source) {
@@ -51,9 +51,10 @@ const ImageController = (props) => {
             Axios.post('https://upload.imagekit.io/api/v1/files/upload', data, config).then(
                             function(res) {
                               if(res && res?.data && res?.data?.url){
-                                setImage(res.data)
-                                setProgress(0)
-                                console.log(res.data)
+                                 removeIfOldImageFound().then(()=>{
+                                  setImage(res.data)
+                                  setProgress(0)
+                                 })
                               }
                               // eslint-disable-next-line
                             }.bind(this)

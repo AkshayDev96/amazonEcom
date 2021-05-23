@@ -2,28 +2,55 @@ import React from 'react'
 import AdminAuth from '../../components/auth/AuthAdmin'
 import NavLayout from '../../components/layout/NavLayout'
 import ImageUploader from '../../components/helpers/ImageController'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Link from 'next/link'
 
 const profile = () => {
-    const [fields,setFields]=React.useState({firstName:'',lastName:'',email:'',password:'',pic:''})
+    const [fields,setFields]=React.useState({firstName:'',lastName:'',email:'',password:''})
     const [seen,setSeen] = React.useState('password')
     const [isLoading,setLoading] = React.useState(true)
     const [image,setImage] = React.useState({})
-
     React.useEffect(async()=>{
-        let data = JSON.parse(localStorage.getItem("userdata"))
+    let data = JSON.parse(localStorage.getItem("userdata"))
         await fetch(`${process.env.api}/admin/get`,{
             headers:{
                 Authorization:`Bearer ${data?data.token:''}`
             }
         }).then((d)=>d.json()).then((result)=>{
             if(result && result.success){
-                setFields(result.data?result.data:'')
+                setFields({
+                    firstName:result?.data.firstName,
+                    lastName:result?.data.lastName,
+                    email:result?.data.email,
+                    password:result?.data.password
+                })
+                setImage(result?.data?.pic)
             }else if(result && !result.success){
                 console.log(result.error)
             }
             setLoading(false)
         }).catch((err)=>console.log(err),setLoading(false))
-    },[]) 
+    },[])
+    
+    
+    const UpdateDB=(tmp)=>{
+        let data = JSON.parse(localStorage.getItem("userdata"))
+        axios({
+            method: 'put',
+            url:`${process.env.api}/admin/update`,
+            data:tmp,
+            headers:{Authorization:`Bearer ${data?data.token:''}`,'Content-Type': 'application/json'}
+        }).then(({data})=>{
+            if(data && data.success){
+                setImage(tmp?.pic)
+                toast.success(data.message)
+            }else{
+                toast.error(data.error)
+            }
+        }).catch((e)=>{toast.error('something went wrong!');console.log(e)})
+    }
 
     const change=(e)=>{
         setFields({
@@ -32,26 +59,41 @@ const profile = () => {
         })
     }
 
+    const isValid=()=>{
+        for(let v in fields){
+            if(!fields[v] || fields[v].toString().trim()===''){
+                return false
+            }
+        }
+        return true
+    }
+
     const submit = (e)=>{
         e.preventDefault()
-
+        if(isValid()){
+            UpdateDB(fields)
+        }else{
+            toast.error("All fields are required!")
+        }
     }
 
     return (
         <AdminAuth>
         <NavLayout/>
+        <ToastContainer/>
             <div className="container">
+                <Link href="/admin"><a><i className="glyphicon glyphicon-menu-left"></i> <span className="fa fa-home"></span>Home</a></Link>
                     <h4>Profile details</h4>
                 <div className="row">
                     <div className="col-lg-6">
                     {!isLoading?
                         (<form onSubmit={submit}>
                             <div className="form-group">
-                                <img src={image.url?image.url:'/avatar.png'} style={{width:100,height:100}} className="img-circle" alt="profile image" />
+                                <img src={(image.url!==undefined)?image.url:'/avatar.png'} style={{width:100,height:100}} className="img-circle" alt="profile image" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="pic">Change picture:</label>
-                              <ImageUploader image={image} setImage={setImage} />
+                              <ImageUploader image={image} setImage={(pic)=>UpdateDB({pic})}  />
                             </div>
                             <div className="form-group row">
                                 <div className="col-md-6">

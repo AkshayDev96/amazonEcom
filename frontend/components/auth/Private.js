@@ -1,6 +1,7 @@
 import { Router } from 'next/router'
 import React from 'react'
 import {Logout} from './auth'
+import Loader from "react-loader-spinner";
 
 const Private = ({children}) => {
     const [isLoading,setLoading] = React.useState(true)
@@ -19,7 +20,15 @@ const Private = ({children}) => {
     }, [])
     return (
         <>
-          {isLoading?'':children}  
+          {isLoading?
+            <div className="text-center" style={{marginTop:150}}>
+            <Loader
+            type="Grid"
+            color="rgb(243, 168, 71)"
+            height={100}
+            width={100}/>
+            </div>
+            :children}  
         </>
     )
 }

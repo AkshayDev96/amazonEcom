@@ -9,13 +9,13 @@ const category = new mongoose.Schema({
     required: true
   },
   logo: {
-    type: String,
+    type: Object,
     required: true
   },
   userid: {
     type: ObjectId,
     required: true
   }
-});
+},{timestamps: true});
 
 module.exports = mongoose.model("category", category);

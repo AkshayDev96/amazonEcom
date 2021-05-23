@@ -25,7 +25,7 @@ const schema = mongoose.Schema({
         required:true
     },
     pic:{
-        type:String,
+        type:Object,
         required:true
     }
 })
