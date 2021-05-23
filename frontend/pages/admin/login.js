@@ -2,9 +2,10 @@ import React from 'react'
 import Image from 'next/image'
 import Head from 'next/head'
 import Link from 'next/link'
+import Router from 'next/router'
+import ProtectLogin from '../../components/auth/ProtectLogin'
 
 const login = () => {
-
     const [email,setEmail] = React.useState('')
     const [password,setPassword] = React.useState('')
     const [errorMsg,setErrorMsg] = React.useState('')
@@ -28,11 +29,13 @@ const login = () => {
         redirect: 'follow'
         }
 
-        fetch("http://localhost:5000/api/admin/login", requestOptions)
+        fetch(`${process.env.api}/admin/login`, requestOptions)
         .then((d)=>d.json())
         .then(result =>{
             if(result && result.success){
                 setMsg(result.message)
+                localStorage.setItem("userdata", JSON.stringify(result.data));
+                Router.push('/admin')
             }else if(result && !result.success){
                 setErrorMsg(result.error)
             }
@@ -43,7 +46,7 @@ const login = () => {
     }
 
     return (
-        <>
+        <ProtectLogin>
         <div className="container" style={{marginBottom:20}}>
             <Head>
                 <title>Login - Amazon</title>
@@ -87,7 +90,7 @@ const login = () => {
             </div>
         </div>
         <div className="a-divider-inner"></div>
-        </>
+        </ProtectLogin>
     )
 }
 

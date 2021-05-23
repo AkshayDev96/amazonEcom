@@ -1,7 +1,9 @@
 .loginBox{
     margin-top: 6px;
 }
-
+body{
+  z-index: 0;
+}
 .box{
     max-width: 370px;
     display: block;
@@ -58,3 +60,15 @@
 a{
     cursor: pointer;
 }
+
+.menu{
+ margin-top: 8px;
+}
+
+@media only screen and (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+  }
+}
+
