@@ -33,7 +33,8 @@ exports.SignUp=(req,res)=>{
             console.log('Error in saving admin data',e)
             return res.status(500).json({
                 success:false,
-                error:'Error in saving admin data'
+                error:'Error in saving admin data',
+                errorBug:e
             })
         })
 

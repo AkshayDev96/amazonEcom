@@ -5,7 +5,13 @@ const app = express()
 const cors = require('cors')
 //initial route
 app.get('/',(req,res)=>{
-    res.send('<h1>Api is ready!!!</h1')
+    // res.send('<h1>Api is ready!!!</h1')
+    mongoose.connect(process.env.MONGODB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+    }).then(()=>res.send('connected with db')).catch((e)=>res.send('Error in db connect'));    
 })
 
 //database connection
