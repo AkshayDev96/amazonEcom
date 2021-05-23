@@ -2,6 +2,6 @@
 
 module.exports = {
     env: {
-        api: 'http://amazon1212.herokuapp.com/api',
+        api: 'https://amazon1212.herokuapp.com/api',
       },
   }
