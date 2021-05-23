@@ -23,11 +23,11 @@ exports.SignUp=(req,res)=>{
             body.password = Crypto.AES.encrypt(body.password , process.env.mykey).toString();
         }
         const admin = new AdminModel(body)
-        admin.save().then((result)=>{
+        admin.save().then((user)=>{
             return res.status(201).json({
                 success:true,
                 message:'Admin data saved successfully!',
-                result
+                user
             })
         }).catch((e)=>{
             console.log('Error in saving admin data',e)
@@ -71,9 +71,12 @@ exports.UpdateAdmin=(req,res)=>{
 //Get All admin data
 exports.GetAdmin=(req,res)=>{
     AdminModel.findById({_id:objectId(req.user._id)}).then((result)=>{
-        return res.status(201).json({
+      
+      const bytes = Crypto.AES.decrypt(result.password, process.env.mykey)
+      result.password = bytes.toString(Crypto.enc.Utf8);
+        return res.status(200).json({
             success:true,
-            result
+            data:result
         })
     }).catch((e)=>{
         console.log('Error in getting admin data',e)

@@ -15,4 +15,17 @@ router.get('/admin/get',adminAuth,admin.GetAdmin)
 //Admin login
 router.post('/admin/login',admin.adminLogin)
 
+//if found auth
+router.get('/user-route',adminAuth,(req,res)=>{
+    if(req.user){
+        res.json({
+            ok:true
+        })
+    }else{
+        res.json({
+            ok:false
+        })
+    }
+})
+
 module.exports = router
